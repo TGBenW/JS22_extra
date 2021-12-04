@@ -17,8 +17,6 @@ const newNumber = function () {
 
 const game = function () {
   let attempt = prompt("Угадай число от 1 до 100");
-  console.log(attempt);
-  console.log(parseInt(attempt));
   if (attempt == null) {
     alert("Игра окончена");
   } else if (!isNumber(attempt)) {
