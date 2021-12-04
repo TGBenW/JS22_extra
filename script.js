@@ -1,57 +1,45 @@
 "use strict";
 
-const arrLength = 7;
-
-let arr = [];
+let number;
 
 const isNumber = function (num) {
   return !isNaN(parseFloat(num)) && isFinite(num);
 };
 
-const promptNumber = function () {
-  let n;
-  do {
-    n = prompt("Введите число");
-  } while (!isNumber(n));
-  return +n;
+const randomInteger = function (min, max) {
+  let rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
 };
 
-const fillArray = function () {
-  for (let i = 0; i < arrLength; i++) {
-    arr[i] = promptNumber();
-  }
+const newNumber = function () {
+  number = randomInteger(1, 100);
 };
 
-const checkArray = function () {
-  for (let i = 0; i < arrLength; i++) {
-    if (arr[i].toString()[0] == 2 || arr[i].toString()[0] == 4) {
-      console.log(arr[i]);
-    }
-  }
-};
-
-const isPrime = function (prime) {
-  let counter = 0;
-  for (let i = 2; i <= prime; i++) {
-    if (prime % i == 0) {
-      counter++;
-    }
-  }
-  if (counter == 1) {
-    return true;
+const game = function () {
+  let attempt = prompt("Угадай число от 1 до 100");
+  console.log(attempt);
+  console.log(parseInt(attempt));
+  if (attempt == null) {
+    alert("Игра окончена");
+  } else if (!isNumber(attempt)) {
+    alert("Введи число!");
+    game();
   } else {
-    return false;
-  }
-};
-
-const primeNumbers = function () {
-  for (let i = 2; i <= 100; i++) {
-    if (isPrime(i)) {
-      console.log(i + " - делители этого числа: 1 и " + i);
+    if (attempt > number) {
+      alert("Загаданное число меньше");
+      game();
+    } else if (attempt < number) {
+      alert("Загаданное число больше");
+      game();
+    } else if (attempt == number) {
+      alert("Поздравляю, Вы угадали!!!");
+      if (confirm("Начать новую игру?")) {
+        newNumber();
+        game();
+      }
     }
   }
 };
 
-fillArray();
-checkArray();
-primeNumbers();
+newNumber();
+game();
