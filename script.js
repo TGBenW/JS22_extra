@@ -1,53 +1,51 @@
 "use strict";
 
-let number;
-let steps;
+function randomInteger(min, max) {
+  let rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
+}
 
 const isNumber = function (num) {
   return !isNaN(parseFloat(num)) && isFinite(num);
 };
 
-const randomInteger = function (min, max) {
-  let rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
-};
-
-const newNumber = function () {
-  number = randomInteger(1, 100);
+const game = function (number, steps) {
   steps = 10;
-};
-
-const game = function () {
-  let attempt = prompt("Угадай число от 1 до 100");
-  if (attempt == null) {
-    alert("Игра окончена");
-  } else if (steps == 1) {
-    alert("Игра окончена");
-    if (confirm("Начать новую игру?")) {
-      newNumber();
-      game();
+  const repeat = function (number) {
+    if (number === true) {
+      steps = 10;
+      starter = game(randomInteger(1, 100));
+      starter(prompt("Угадайте число от 1 до 100"));
+    } else {
+      alert("Игра окончена");
     }
-  } else if (!isNumber(attempt)) {
-    alert("Введи число! Осталось попыток - " + steps);
-    game();
-  } else {
-    if (attempt > number) {
+  };
+  return function (attempt) {
+    console.log(attempt);
+    if (attempt == null) {
+      alert("Игра окончена");
+    } else if (!isNumber(attempt)) {
+      starter(prompt("Введите число!"));
+    } else if (attempt > 100 || attempt < 1) {
+      starter(prompt("Введите число в диапазоне от 1 до 100!"));
+    } else {
       steps--;
-      alert("Загаданное число меньше, осталось попыток - " + steps);
-      game();
-    } else if (attempt < number) {
-      steps--;
-      alert("Загаданное число больше, осталось попыток - " + steps);
-      game();
-    } else if (attempt == number) {
-      alert("Поздравляю, Вы угадали!!!");
-      if (confirm("Начать новую игру?")) {
-        newNumber();
-        game();
+      if (steps > 0) {
+        if (number < attempt) {
+          starter(prompt(`Загаданное число меньше, осталось попыток - ${steps}`));
+        } else if (number > attempt && attempt !== 0) {
+          starter(prompt(`Загаданное число больше, осталось попыток - ${steps}`));
+        } else if (number == attempt) {
+          repeat(confirm("Поздравляю, Вы угадали!!! Начать новую игру?"));
+        } else if (attempt === 0) {
+          alert("Игра окончена");
+        }
+      } else {
+        repeat(confirm("Попытки закончились, начать новую игру?"));
       }
     }
-  }
+  };
 };
 
-newNumber();
-game();
+let starter = game(randomInteger(1, 100));
+starter(prompt("Угадайте число от 1 до 100"));
