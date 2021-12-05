@@ -8,11 +8,14 @@ const isNumber = function (num) {
 
 const randomInteger = function (min, max) {
   let rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
+  return function () {
+    return Math.floor(rand);
+  };
 };
 
 const newNumber = function () {
   number = randomInteger(1, 100);
+  game();
 };
 
 const game = function () {
@@ -40,4 +43,3 @@ const game = function () {
 };
 
 newNumber();
-game();
